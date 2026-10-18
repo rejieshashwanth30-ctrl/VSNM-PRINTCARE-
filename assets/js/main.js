@@ -84,7 +84,7 @@ function initHeaderScroll() {
 
 /* --------------------------------------------------------------------------
    MOBILE NAVIGATION DRAWER
-   Smooth accessible drawer for smaller screens
+   Smooth accessible dropdown panel positioned directly below fixed header
    -------------------------------------------------------------------------- */
 function initMobileNav() {
   const toggleBtn = document.getElementById('mobileMenuToggle');
@@ -97,6 +97,8 @@ function initMobileNav() {
     drawer.classList.add('open');
     toggleBtn.classList.add('is-active');
     toggleBtn.setAttribute('aria-expanded', 'true');
+    document.documentElement.classList.add('menu-open');
+    document.body.classList.add('menu-open');
     document.body.style.overflow = 'hidden';
   }
 
@@ -104,6 +106,8 @@ function initMobileNav() {
     drawer.classList.remove('open');
     toggleBtn.classList.remove('is-active');
     toggleBtn.setAttribute('aria-expanded', 'false');
+    document.documentElement.classList.remove('menu-open');
+    document.body.classList.remove('menu-open');
     document.body.style.overflow = '';
   }
 
@@ -119,9 +123,9 @@ function initMobileNav() {
     closeBtn.addEventListener('click', closeMenu);
   }
 
-  // Close when clicking background backdrop
+  // Close when clicking backdrop area outside the inner panel
   drawer.addEventListener('click', (e) => {
-    if (e.target === drawer) {
+    if (!e.target.closest('.mobile-drawer-inner')) {
       closeMenu();
     }
   });
@@ -135,6 +139,13 @@ function initMobileNav() {
   // Close on Escape key
   window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && drawer.classList.contains('open')) {
+      closeMenu();
+    }
+  });
+
+  // Auto-close on viewport resize to desktop
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 991 && drawer.classList.contains('open')) {
       closeMenu();
     }
   });
@@ -155,6 +166,17 @@ function initSearchModal() {
   if (!modal || !input || !resultsContainer) return;
 
   function openSearch() {
+    const mobileDrawer = document.getElementById('mobileNavDrawer');
+    const mobileToggle = document.getElementById('mobileMenuToggle');
+    if (mobileDrawer && mobileDrawer.classList.contains('open')) {
+      mobileDrawer.classList.remove('open');
+      if (mobileToggle) {
+        mobileToggle.classList.remove('is-active');
+        mobileToggle.setAttribute('aria-expanded', 'false');
+      }
+      document.documentElement.classList.remove('menu-open');
+      document.body.classList.remove('menu-open');
+    }
     modal.classList.add('open');
     document.body.style.overflow = 'hidden';
     setTimeout(() => {
@@ -326,7 +348,8 @@ function initSmoothScroll() {
       const targetEl = document.querySelector(targetId);
       if (targetEl) {
         e.preventDefault();
-        const headerOffset = 80;
+        const headerEl = document.querySelector('.site-header');
+        const headerOffset = headerEl ? headerEl.offsetHeight + 24 : 90;
         const elementPosition = targetEl.getBoundingClientRect().top;
         const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
         window.scrollTo({
