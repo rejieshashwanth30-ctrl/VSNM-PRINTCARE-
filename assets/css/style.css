@@ -103,6 +103,8 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+  max-width: 100%;
 }
 
 body {
@@ -110,6 +112,7 @@ body {
   display: flex;
   flex-direction: column;
   overflow-x: hidden;
+  max-width: 100%;
   color: var(--c-slate-700);
   background-color: var(--c-slate-50);
   text-rendering: optimizeLegibility;
@@ -728,6 +731,130 @@ p {
   }
   .header-topbar .topbar-contact-group {
     display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .site-header {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .site-header .container {
+    padding-inline: 1rem;
+  }
+
+  .nav-container {
+    height: 64px;
+    gap: 0.5rem;
+  }
+
+  .brand-link {
+    flex-shrink: 0;
+    min-width: 0;
+  }
+
+  .brand-logo-wrap {
+    flex-shrink: 0;
+  }
+
+  .brand-title-row {
+    gap: 0.28rem;
+  }
+
+  .brand-vsnm {
+    font-size: 1.35rem;
+  }
+
+  .brand-printcare {
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+  }
+
+  .brand-solutions {
+    font-size: 0.52rem;
+    letter-spacing: 0.18em;
+  }
+
+  .nav-actions {
+    gap: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  /* Hide header WhatsApp button on phone screens to prevent crowded overflow; WhatsApp is fully accessible via fixed floating button, hero CTA, and mobile drawer */
+  .header-cta-btn {
+    display: none;
+  }
+
+  .search-toggle-btn {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    min-height: 40px;
+  }
+
+  .menu-toggle-btn {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    min-height: 40px;
+    padding: 9px;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-topbar {
+    font-size: 0.72rem;
+    padding-block: 0.35rem;
+  }
+
+  .topbar-badge {
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    font-size: 0.72rem;
+    gap: 0.35rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .site-header .container {
+    padding-inline: 0.75rem;
+  }
+
+  .nav-container {
+    height: 60px;
+    gap: 0.35rem;
+  }
+
+  .brand-vsnm {
+    font-size: 1.22rem;
+  }
+
+  .brand-printcare {
+    font-size: 0.62rem;
+    letter-spacing: 0.06em;
+  }
+
+  .brand-solutions {
+    font-size: 0.46rem;
+    letter-spacing: 0.14em;
+  }
+
+  .nav-actions {
+    gap: 0.35rem;
+  }
+
+  .search-toggle-btn,
+  .menu-toggle-btn {
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
+    min-height: 38px;
+  }
+
+  .menu-toggle-btn {
+    padding: 8px;
   }
 }
 
